@@ -23,6 +23,10 @@
 
 package edu.princeton.cs.algs4;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+
+import pokemon.*;
 /**
  *  The {@code Merge} class provides static methods for sorting an
  *  array using a top-down, recursive version of <em>mergesort</em>.
@@ -44,52 +48,114 @@ package edu.princeton.cs.algs4;
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  */
-public class Merge {
+public class Merge{
 
     // This class should not be instantiated.
     private Merge() { }
 
     // stably merge a[lo .. mid] with a[mid+1 ..hi] using aux[lo .. hi]
-    private static void merge(Comparable[] a, Comparable[] aux, int lo, int mid, int hi) {
+    /* aqui cambiamos los arreglos tradicionales por arraylist para adaptarlo y que funcione con
+    * las clases pokemon, como pide el enunciado del laboratorio, se cambiaron las variables justas y necesarias
+    * para que esto funcionara, ademas de cambiar los arreglos tradicionales implementamos Comparator<Pokemon> de la
+    * libreria de java.util al igual que arraylist
+    * de los parametros originales del arreglo tradicional "a" paso a ser "lista", aux se mantuvo al igual
+    * que las demas variables originales
+    *
+    *
+    *
+    *
+    *
+    *
+    * */
+    private static void merge(ArrayList<Pokemon> lista, ArrayList<Pokemon> aux, int lo, int mid, int hi, Comparator<Pokemon> comparador) {
         // precondition: a[lo .. mid] and a[mid+1 .. hi] are sorted subarrays
-        assert isSorted(a, lo, mid);
-        assert isSorted(a, mid+1, hi);
+        assert isSorted(lista, lo, mid, comparador);
+        assert isSorted(lista, mid+1, hi, comparador);
 
         // copy to aux[]
+        // el cambio realizado al codigo fue cambiar la forma de acceder al indice del arreglo tradicional por aux.set(k) para
+        // que este funcione en arraylists
         for (int k = lo; k <= hi; k++) {
-            aux[k] = a[k];
+            aux.set(k, lista.get(k));
         }
 
         // merge back to a[]
+        /* para adaptar este ciclo para que funcione con arraylist utilizamos el mismo procedimiento
+        *  cambiar todo lo que este relacionado con arreglos tradicionales a la manera de arraylists
+        *  que en este caso seria utilizar gets para acceder a las posiciones de los arreglos dinamicos
+        *  y set para modificar los datos del mismo
+        *
+        * */
         int i = lo, j = mid+1;
         for (int k = lo; k <= hi; k++) {
-            if      (i > mid)              a[k] = aux[j++];
-            else if (j > hi)               a[k] = aux[i++];
-            else if (less(aux[j], aux[i])) a[k] = aux[j++];
-            else                           a[k] = aux[i++];
+            if      (i > mid){
+                lista.set(k,aux.get(j++));
+            }
+            else if (j > hi){
+                lista.set(k,aux.get(i++));
+            }
+            else if (less(aux.get(j), aux.get(i), comparador)){
+                lista.set(k,aux.get(j++));
+            }
+            else{
+                lista.set(k,aux.get(i++));
+            }
         }
 
         // postcondition: a[lo .. hi] is sorted
-        assert isSorted(a, lo, hi);
+        assert isSorted(lista, lo, hi, comparador);
     }
 
     // mergesort a[lo..hi] using auxiliary array aux[lo..hi]
-    private static void sort(Comparable[] a, Comparable[] aux, int lo, int hi) {
+    // Comparable[] podemos desglozarlo como "Comparable" la cual es equivalente a nuestra variable pokemon
+    // pero este pierde la capacidad de comparar por si solo por lo cual debemos implementar un nuevo comparador
+    // el que decidimos usar fue Comparator dentro de este pusimos nuestra variable Pokemon
+    // y el arreglo "[]" seria nuestro ArrayList
+    private static void sort(ArrayList<Pokemon>lista, ArrayList<Pokemon> aux, int lo, int hi, Comparator<Pokemon> comparador) {
         if (hi <= lo) return;
         int mid = lo + (hi - lo) / 2;
-        sort(a, aux, lo, mid);
-        sort(a, aux, mid + 1, hi);
-        merge(a, aux, lo, mid, hi);
+        sort(lista, aux, lo, mid,comparador);
+        sort(lista, aux, mid + 1, hi,comparador);
+        merge(lista, aux, lo, mid, hi,comparador);
     }
 
     /**
      * Rearranges the array in ascending order, using the natural order.
      * @param a the array to be sorted
      */
-    public static void sort(Comparable[] a) {
-        Comparable[] aux = new Comparable[a.length];
-        sort(a, aux, 0, a.length-1);
-        assert isSorted(a);
+
+    /*
+    *
+    *
+    * */
+
+    /*
+    *  en este caso la solucion que vimos para adaptar el sort
+    *  fue en primer lugar cambiar los parametros Comparable[] a
+    *  por el estandar que llevamos usando para los ArrayList
+    *  luego necesitabamos adaptar Comparable[] aux = new Comparable[a.length]
+    *  el cual cumplia con la funcion de declarar la variable aux que era un arreglo tradicional
+    *  y crear el arreglo del mismo tamaño que el arreglo original, el cual era "a" pero en nuestro caso sera
+    *  "lista" para lograr esta adaptacion la solucion que vimos fue usar un condicional if para que si la lista
+    *  que se ingresa es null, esta vacia o tiene solo 1 pokemon la funcion termina, por lo cual este es nuestro
+    *  caso base ya que estamos utilizando recursividad. Para sustituir Comparable[] aux = new Comparable[a.length]
+    *  utilizamos ArrayList<Pokemon>aux=new ArrayList<Pokemon>(lista); el cual cumple la misma funcion
+    *  ya que el primer arraylist se encarga de declarar el aux para luego crearlo con los datos de la lista,
+    *  esto lo hacemos para que ambos poseaan el mismo tamaño ya que los datos utilizados no son relevantes
+    *  ya que en merge luego seran sobrescribidos (por algo es nuestro auxiliar)
+    *
+    * */
+
+
+    public static void sort(ArrayList<Pokemon>lista, Comparator<Pokemon> comparador){
+        if(lista==null||lista.size()<=1){
+            return;
+        }
+        ArrayList<Pokemon>aux=new ArrayList<Pokemon>(lista);
+        sort(lista, aux, 0, lista.size()-1,comparador);
+        //Devuelve true si la lista está perfectamente ordenada, o false si encuentra algún elemento fuera de lugar.
+        //esto es adaptado del codigo original
+        assert isSorted(lista,comparador);
     }
 
 
@@ -98,20 +164,30 @@ public class Merge {
     ***************************************************************************/
 
     // is v < w ?
-    private static boolean less(Comparable v, Comparable w) {
-        return v.compareTo(w) < 0;
+   //Comparable es nuestro Pokemon
+    private static boolean less(Pokemon v, Pokemon w, Comparator<Pokemon> comparador) {
+        return comparador.compare(v,w)<0;
     }
 
    /***************************************************************************
     *  Check if array is sorted - useful for debugging.
     ***************************************************************************/
-    private static boolean isSorted(Comparable[] a) {
-        return isSorted(a, 0, a.length - 1);
+   /*
+   * cambiamos del metodo original todos los Comparable[] por ArralyList<Pokemon>
+   * para adaptarlo y que merge y las demas clases que contienen arraylist funcionen correctamente
+   * (inchequeable) el antiguo lista.length fue cambiado por un lista.size ya que los arreglos dinamicos no funcionan con
+   * un tamaño fijo por lo que no pueden utilizar el .length ().
+   * ademas de usar el arraylist debemos usar el Comparator<Pokemon> para poder ordenar en el arreglo que pokemon
+   * va antes dentro del mismo arraylist, a diferencia del algoritmo original este tiene que tener un comparador externo
+   * */
+
+   private static boolean isSorted(ArrayList<Pokemon> lista, Comparator<Pokemon> comparador) {
+        return isSorted(lista, 0, lista.size() - 1, comparador);
     }
 
-    private static boolean isSorted(Comparable[] a, int lo, int hi) {
+    private static boolean isSorted(ArrayList<Pokemon> lista, int lo, int hi, Comparator<Pokemon> comparador) {
         for (int i = lo + 1; i <= hi; i++)
-            if (less(a[i], a[i-1])) return false;
+            if (less(lista.get(i), lista.get(i-1),comparador)) return false;
         return true;
     }
 
@@ -120,7 +196,8 @@ public class Merge {
     *  Index mergesort.
     ***************************************************************************/
     // stably merge a[lo .. mid] with a[mid+1 .. hi] using aux[lo .. hi]
-    private static void merge(Comparable[] a, int[] index, int[] aux, int lo, int mid, int hi) {
+    private static void merge(ArrayList<Pokemon> lista, int[] index, int[] aux, int lo, int mid, int hi,Comparator<Pokemon> comparador) {
+
 
         // copy to aux[]
         for (int k = lo; k <= hi; k++) {
@@ -132,7 +209,7 @@ public class Merge {
         for (int k = lo; k <= hi; k++) {
             if      (i > mid)                    index[k] = aux[j++];
             else if (j > hi)                     index[k] = aux[i++];
-            else if (less(a[aux[j]], a[aux[i]])) index[k] = aux[j++];
+            else if (less(lista.get(aux[j]), lista.get(aux[i]), comparador)) index[k] = aux[j++];
             else                                 index[k] = aux[i++];
         }
     }
@@ -143,30 +220,30 @@ public class Merge {
      * @return a permutation {@code p[]} such that {@code a[p[0]]}, {@code a[p[1]]},
      *    ..., {@code a[p[n-1]]} are in ascending order
      */
-    public static int[] indexSort(Comparable[] a) {
-        int n = a.length;
+    public static int[] indexSort(ArrayList<Pokemon> lista, Comparator<Pokemon> comparador) {
+        int n = lista.size();
         int[] index = new int[n];
         for (int i = 0; i < n; i++)
             index[i] = i;
 
         int[] aux = new int[n];
-        sort(a, index, aux, 0, n-1);
+        sort(lista, index, aux, 0, n-1,comparador);
         return index;
     }
 
     // mergesort a[lo..hi] using auxiliary array aux[lo..hi]
-    private static void sort(Comparable[] a, int[] index, int[] aux, int lo, int hi) {
+    private static void sort(ArrayList<Pokemon> lista, int[] index, int[] aux, int lo, int hi, Comparator<Pokemon> comparador) {
         if (hi <= lo) return;
         int mid = lo + (hi - lo) / 2;
-        sort(a, index, aux, lo, mid);
-        sort(a, index, aux, mid + 1, hi);
-        merge(a, index, aux, lo, mid, hi);
+        sort(lista, index, aux, lo, mid, comparador);
+        sort(lista, index, aux, mid + 1, hi,comparador);
+        merge(lista, index, aux, lo, mid, hi, comparador);
     }
 
     // print array to standard output
-    private static void show(Comparable[] a) {
-        for (int i = 0; i < a.length; i++) {
-            StdOut.println(a[i]);
+    private static void show(ArrayList<Pokemon> lista) {
+        for(int i = 0; i < lista.size(); i++) {
+            StdOut.println(lista.get(i));
         }
     }
 
@@ -176,33 +253,9 @@ public class Merge {
      *
      * @param args the command-line arguments
      */
-    public static void main(String[] args) {
-        String[] a = StdIn.readAllStrings();
-        Merge.sort(a);
-        show(a);
-    }
+    /*public static void main(String[] args) {
+        String[] lista = StdIn.readAllStrings();
+        Merge.sort(lista);
+        show(lista);
+    }*/
 }
-
-/******************************************************************************
- *  Copyright 2002-2025, Robert Sedgewick and Kevin Wayne.
- *
- *  This file is part of algs4.jar, which accompanies the textbook
- *
- *      Algorithms, 4th edition by Robert Sedgewick and Kevin Wayne,
- *      Addison-Wesley Professional, 2011, ISBN 0-321-57351-X.
- *      http://algs4.cs.princeton.edu
- *
- *
- *  algs4.jar is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  algs4.jar is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with algs4.jar.  If not, see http://www.gnu.org/licenses.
- ******************************************************************************/

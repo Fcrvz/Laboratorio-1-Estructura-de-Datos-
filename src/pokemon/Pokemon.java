@@ -1,3 +1,7 @@
+package pokemon;
+
+import java.util.Comparator;
+
 public class Pokemon {
 
     private int id;
@@ -16,7 +20,7 @@ public class Pokemon {
     }
 
     /**
-     * Constructor que inicializa los atributos del Pokemon y calcula su totalStats.
+     * Constructor que inicializa los atributos del pokemon.Pokemon y calcula su totalStats.
      */
     public Pokemon(int id, String name, String type1, int hp, int attack, int defense, int speed){
         this.id = id;
