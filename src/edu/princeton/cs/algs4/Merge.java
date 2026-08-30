@@ -195,57 +195,63 @@ public class Merge{
    /***************************************************************************
     *  Index mergesort.
     ***************************************************************************/
-    // stably merge a[lo .. mid] with a[mid+1 .. hi] using aux[lo .. hi]
-    private static void merge(ArrayList<Pokemon> lista, int[] index, int[] aux, int lo, int mid, int hi,Comparator<Pokemon> comparador) {
-
-
-        // copy to aux[]
-        for (int k = lo; k <= hi; k++) {
-            aux[k] = index[k];
-        }
-
-        // merge back to a[]
-        int i = lo, j = mid+1;
-        for (int k = lo; k <= hi; k++) {
-            if      (i > mid)                    index[k] = aux[j++];
-            else if (j > hi)                     index[k] = aux[i++];
-            else if (less(lista.get(aux[j]), lista.get(aux[i]), comparador)) index[k] = aux[j++];
-            else                                 index[k] = aux[i++];
-        }
-    }
-
+   /*
+   * index mergesort funciona de manera resumida ordenando los datos en orden ascendente de su indice
+   * por lo cual para el desarrollo del laboratorio todos los metodos vinculado a index mergesort
+   * no son necesarios debido a que en el enunciado del laboratorio se nos pide ordenar por POKEMONS
+   * no por el indice de los mismos, todo esto gracias al la clase LectorCSVPokemon
+   * */
+   // stably merge a[lo .. mid] with a[mid+1 .. hi] using aux[lo .. hi]
+//    private static void merge(ArrayList<Pokemon> lista, int[] index, int[] aux, int lo, int mid, int hi,Comparator<Pokemon> comparador) {
+//
+//
+//        // copy to aux[]
+//        for (int k = lo; k <= hi; k++) {
+//            aux[k] = index[k];
+//        }
+//
+//        // merge back to a[]
+//        int i = lo, j = mid+1;
+//        for (int k = lo; k <= hi; k++) {
+//            if      (i > mid)                    index[k] = aux[j++];
+//            else if (j > hi)                     index[k] = aux[i++];
+//            else if (less(lista.get(aux[j]), lista.get(aux[i]), comparador)) index[k] = aux[j++];
+//            else                                 index[k] = aux[i++];
+//        }
+//    }
+//
     /**
      * Returns a permutation that gives the elements in the array in ascending order.
      * @param a the array
      * @return a permutation {@code p[]} such that {@code a[p[0]]}, {@code a[p[1]]},
      *    ..., {@code a[p[n-1]]} are in ascending order
      */
-    public static int[] indexSort(ArrayList<Pokemon> lista, Comparator<Pokemon> comparador) {
-        int n = lista.size();
-        int[] index = new int[n];
-        for (int i = 0; i < n; i++)
-            index[i] = i;
+//    public static int[] indexSort(ArrayList<Pokemon> lista, Comparator<Pokemon> comparador) {
+//        int n = lista.size();
+//        int[] index = new int[n];
+//        for (int i = 0; i < n; i++)
+//            index[i] = i;
+//
+//        int[] aux = new int[n];
+//        sort(lista, index, aux, 0, n-1,comparador);
+//        return index;
+//    }
 
-        int[] aux = new int[n];
-        sort(lista, index, aux, 0, n-1,comparador);
-        return index;
-    }
+//    // mergesort a[lo..hi] using auxiliary array aux[lo..hi]
+//    private static void sort(ArrayList<Pokemon> lista, int[] index, int[] aux, int lo, int hi, Comparator<Pokemon> comparador) {
+//        if (hi <= lo) return;
+//        int mid = lo + (hi - lo) / 2;
+//        sort(lista, index, aux, lo, mid, comparador);
+//        sort(lista, index, aux, mid + 1, hi,comparador);
+//        merge(lista, index, aux, lo, mid, hi, comparador);
+//    }
 
-    // mergesort a[lo..hi] using auxiliary array aux[lo..hi]
-    private static void sort(ArrayList<Pokemon> lista, int[] index, int[] aux, int lo, int hi, Comparator<Pokemon> comparador) {
-        if (hi <= lo) return;
-        int mid = lo + (hi - lo) / 2;
-        sort(lista, index, aux, lo, mid, comparador);
-        sort(lista, index, aux, mid + 1, hi,comparador);
-        merge(lista, index, aux, lo, mid, hi, comparador);
-    }
-
-    // print array to standard output
-    private static void show(ArrayList<Pokemon> lista) {
-        for(int i = 0; i < lista.size(); i++) {
-            StdOut.println(lista.get(i));
-        }
-    }
+//    // print array to standard output
+//    private static void show(ArrayList<Pokemon> lista) {
+//        for(int i = 0; i < lista.size(); i++) {
+//            StdOut.println(lista.get(i));
+//        }
+//    }
 
     /**
      * Reads in a sequence of strings from standard input; mergesorts them;

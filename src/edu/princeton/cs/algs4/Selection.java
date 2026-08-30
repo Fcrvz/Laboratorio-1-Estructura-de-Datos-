@@ -23,7 +23,9 @@
 
 package edu.princeton.cs.algs4;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import pokemon.*;
 
 /**
  *  The {@code Selection} class provides static methods for sorting an
@@ -50,18 +52,24 @@ public class Selection {
     /**
      * Rearranges the array in ascending order, using the natural order.
      * @param a the array to be sorted
+        se cambio la variable Comparable[]a por Arraylist<Pokemon> lista y se agrego Comparator<Pokemon> comparador
+        para que haga la funcion de comparar que hacia el original.
+        y se adaptaron los if para que logren funcionar con estas nuevas variables ya que en la original se manejan arreglos normales
+        y las de pokemon se manejan como arraylist y en isSorted se adapto iguan que en las anteriores
+
+
      */
-    public static void sort(Comparable[] a) {
-        int n = a.length;
+    public static void sort(ArrayList<Pokemon> lista,Comparator<Pokemon> comparador) {
+        int n = lista.size();
         for (int i = 0; i < n; i++) {
             int min = i;
             for (int j = i+1; j < n; j++) {
-                if (less(a[j], a[min])) min = j;
+                if (less(lista.get(j), lista.get(min),comparador)) min = j;
             }
-            exch(a, i, min);
-            assert isSorted(a, 0, i);
+            exch(lista, i, min);
+            assert isSorted(lista,comparador, 0, i);
         }
-        assert isSorted(a);
+        assert isSorted(lista,comparador);
     }
 
     /**
@@ -85,21 +93,31 @@ public class Selection {
 
    /***************************************************************************
     *  Helper sorting functions.
-    ***************************************************************************/
-
-    // is v < w ?
-    private static boolean less(Comparable v, Comparable w) {
-        return v.compareTo(w) < 0;
+       
     }
 
+
+    ***************************************************************************/
+    
+    //Comparable es nuestro Pokemon
     // is v < w ?
+    private static boolean less(Pokemon v, Pokemon w, Comparator<Pokemon>comparador) {
+        return comparador.compare(v,w)<0;
+    }
+
+    // is v < w ? codigo basura??????
     private static boolean less(Comparator comparator, Object v, Object w) {
         return comparator.compare(v, w) < 0;
     }
 
-
+    /*
+    *  en este caso debemos adaptar el parametro Object[] a para hacerlo funcionar junto con
+    *  las clases del package pokemon
+    *
+    *
+    * */
     // exchange a[i] and a[j]
-    private static void exch(Object[] a, int i, int j) {
+    private static void exch(Object[] lista, int i, int j) {
         Object swap = a[i];
         a[i] = a[j];
         a[j] = swap;
