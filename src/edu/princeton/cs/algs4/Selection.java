@@ -52,10 +52,10 @@ public class Selection {
     /**
      * Rearranges the array in ascending order, using the natural order.
      * @param a the array to be sorted
-        se cambio la variable Comparable[]a por Arraylist<Pokemon> lista y se agrego Comparator<Pokemon> comparador
-        para que haga la funcion de comparar que hacia el original.
-        y se adaptaron los if para que logren funcionar con estas nuevas variables ya que en la original se manejan arreglos normales
-        y las de pokemon se manejan como arraylist y en isSorted se adapto iguan que en las anteriores
+    se cambio la variable Comparable[]a por Arraylist<Pokemon> lista y se agrego Comparator<Pokemon> comparador
+    para que haga la funcion de comparar que hacia el original.
+    y se adaptaron los if para que logren funcionar con estas nuevas variables ya que en la original se manejan arreglos normales
+    y las de pokemon se manejan como arraylist y en isSorted se adapto iguan que en las anteriores
 
 
      */
@@ -77,6 +77,8 @@ public class Selection {
      * @param a the array
      * @param comparator the comparator specifying the order
      */
+
+    /*
     public static void sort(Object[] a, Comparator comparator) {
         int n = a.length;
         for (int i = 0; i < n; i++) {
@@ -89,71 +91,100 @@ public class Selection {
         }
         assert isSorted(a, comparator);
     }
+    */
+
+    /***************************************************************************
+     *  Helper sorting functions.
+
+     }
 
 
-   /***************************************************************************
-    *  Helper sorting functions.
-       
-    }
+     ***************************************************************************/
 
-
-    ***************************************************************************/
-    
     //Comparable es nuestro Pokemon
     // is v < w ?
     private static boolean less(Pokemon v, Pokemon w, Comparator<Pokemon>comparador) {
         return comparador.compare(v,w)<0;
     }
 
-    // is v < w ? codigo basura??????
+    /* is v < w ? codigo basura??????
     private static boolean less(Comparator comparator, Object v, Object w) {
         return comparator.compare(v, w) < 0;
     }
+    */
+
 
     /*
-    *  en este caso debemos adaptar el parametro Object[] a para hacerlo funcionar junto con
-    *  las clases del package pokemon
-    *
-    *
-    * */
+     *  en este caso debemos adaptar el parametro Object[] a para hacerlo funcionar junto con
+     *  las clases del package pokemon
+     *
+     *
+     * */
     // exchange a[i] and a[j]
-    private static void exch(Object[] lista, int i, int j) {
-        Object swap = a[i];
-        a[i] = a[j];
-        a[j] = swap;
+
+    /**
+     * se reemplazo  Object[] por ArrayList<Pokemon> por que el original se maneja en arreglos y las
+     * listas pokemons que usaremos usa arreglos dinamicos por lo que era incompatible
+     * y se adapto el codigo para que sea compatible con arraylist asi eliminando los chorchetes tradiciones en el codigo
+     *
+     */
+    private static void exch(ArrayList<Pokemon> lista, int i, int j) {
+        Pokemon swap = lista.get(i);
+        lista.set(i, lista.get(j));
+        lista.set(j, swap);
     }
 
 
-   /***************************************************************************
-    *  Check if array is sorted - useful for debugging.
-    ***************************************************************************/
+    /***************************************************************************
+     *  Check if array is sorted - useful for debugging.
+     ***************************************************************************/
 
     // is the array a[] sorted?
-    private static boolean isSorted(Comparable[] a) {
-        return isSorted(a, 0, a.length - 1);
+
+    /**
+     * se elimina Comparable[] a y se pone ArrayList<Pokemon> lista y se le agrega su Comparator<Pokemon> comparador
+     * para que funcione correctamente lyendo la lista y comparandola asi adaptandose a como funcionaba el original
+     * esta funcion verificca si la lista esta correctamente ordenada
+     *
+     */
+    private static boolean isSorted(ArrayList<Pokemon> lista, Comparator<Pokemon>comparador) {
+
+        return isSorted(lista,comparador, 0, lista.size() - 1);
     }
 
     // is the array sorted from a[lo] to a[hi]
-    private static boolean isSorted(Comparable[] a, int lo, int hi) {
-        for (int i = lo + 1; i <= hi; i++)
-            if (less(a[i], a[i-1])) return false;
+    /*
+    se elimina Comparable[] a y se pone ArrayList<Pokemon> lista y se agrega su Comparator<Pokemon> comparador
+?????????????????????????????????????????????????????????????????????????????????????????????????
+y se adapta con la sintaxis correcta para arraylist asi eliminado los corchetes de los arreglos tradicionales
+
+     */
+    private static boolean isSorted(ArrayList<Pokemon> lista,Comparator<Pokemon>comparador,int lo, int hi) {
+        for (int i = lo + 1; i <= hi; i++) {
+            if (less(lista.get(i), lista.get(i - 1), comparador)) {
+                return false;
+            }
+        }
         return true;
     }
+/*
+????????????????????????????????????????????????????????????
 
     // is the array a[] sorted?
     private static boolean isSorted(Object[] a, Comparator comparator) {
         return isSorted(a, comparator, 0, a.length - 1);
     }
-
+*/
+/*
     // is the array sorted from a[lo] to a[hi]
     private static boolean isSorted(Object[] a, Comparator comparator, int lo, int hi) {
         for (int i = lo + 1; i <= hi; i++)
             if (less(comparator, a[i], a[i-1])) return false;
         return true;
     }
+*/
 
-
-
+/*
     // print array to standard output
     private static void show(Comparable[] a) {
         for (int i = 0; i < a.length; i++) {
@@ -167,11 +198,14 @@ public class Selection {
      *
      * @param args the command-line arguments
      */
+    /*
     public static void main(String[] args) {
         String[] a = StdIn.readAllStrings();
         Selection.sort(a);
         show(a);
     }
+
+     */
 }
 
 /******************************************************************************
