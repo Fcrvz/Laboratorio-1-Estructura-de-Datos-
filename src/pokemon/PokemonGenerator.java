@@ -64,8 +64,46 @@ public class PokemonGenerator {
             }
         }
 
-        //se retorna un ArrayList vacio para comprobar posibles errores
-        return new ArrayList<>();
+        //==========================================================================================================
+
+
+
+        // 5. Generar secuencia de nombres en un arreglo tradicional y mezclarla
+        String[] nombresDistribuidos = new String[n];
+        for (int i = 0; i < n; i++) {
+            nombresDistribuidos[i] = vocabulario.get(i % m);
+        }
+        StdRandom.shuffle(nombresDistribuidos); // Ahora funcionará sin errores de compatibilidad
+
+// 6. Instanciar los objetos Pokemon
+        ArrayList<Pokemon> baseDeDatos = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            int id = i + 1; // ID estrictamente secuencial de 1 a n
+            String name = nombresDistribuidos[i]; // Extraemos del arreglo ya mezclado
+            String type1 = tiposCSV.get(StdRandom.uniform(tiposCSV.size()));
+
+            int hp = StdRandom.uniform(1, 256);
+            int attack = StdRandom.uniform(5, 191);
+            int defense = StdRandom.uniform(5, 231);
+            int speed = StdRandom.uniform(5, 181);
+
+            baseDeDatos.add(new Pokemon(id, name, type1, hp, attack, defense, speed));
+        }
+        return baseDeDatos;
+
+
+
+
+
+
+        //=============================================================================================================
+
+
+
+
+
+
+
 
     }
 
