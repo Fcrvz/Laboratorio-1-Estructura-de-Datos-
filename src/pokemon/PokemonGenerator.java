@@ -3,10 +3,19 @@ package pokemon;
 import java.util.ArrayList;
 import edu.princeton.cs.algs4.*;
 
+/**
+ * genera listas de pokemon para los experimentos.
+ *
+ */
 public class PokemonGenerator {
-
+    /**
+     *
+     * @param n el tamano de la base de datos a generar(n = 2^t)
+     * @param seed la semilla de aleatoriedad
+     * @return un Arraylist con los n pokemon instanciados
+     */
     public static ArrayList<Pokemon> generateDatabase(int n, long seed){
-
+        // se fija la semilla
         StdRandom.setSeed(seed);
 
         // debemos importar los datos del archivo csv de pokemon para poder usar lectorcsvpokemon usamos

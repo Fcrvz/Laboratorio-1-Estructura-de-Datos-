@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import pokemon.*;
 
-/**
+/*
  *  The {@code Selection} class provides static methods for sorting an
  *  array using <em>selection sort</em>.
  *  This implementation makes ~ &frac12; <em>n</em><sup>2</sup> compares to sort
@@ -49,15 +49,21 @@ public class Selection {
     // This class should not be instantiated.
     private Selection() { }
 
-    /**
-     * Rearranges the array in ascending order, using the natural order.
-     * @param a the array to be sorted
+    /*
+
     se cambio la variable Comparable[]a por Arraylist<Pokemon> lista y se agrego Comparator<Pokemon> comparador
     para que haga la funcion de comparar que hacia el original.
     y se adaptaron los if para que logren funcionar con estas nuevas variables ya que en la original se manejan arreglos normales
     y las de pokemon se manejan como arraylist y en isSorted se adapto iguan que en las anteriores
 
 
+     */
+
+    /**
+     * ordena la lista de pokemon en orden ascendente buscando repetidamente el elemento menor.
+     * al avanzar por la lista cuando encuentra el pokemon que debe ir primero lo intercambia
+     * @param lista Arraylist que contiene los pokemons a ordenar
+     * @param comparador se encarga de comparar segun la caracteristica seleccionada
      */
     public static void sort(ArrayList<Pokemon> lista,Comparator<Pokemon> comparador) {
         int n = lista.size();
@@ -103,11 +109,19 @@ public class Selection {
 
     //Comparable es nuestro Pokemon
     // is v < w ?
+
+    /**
+     *
+     * @param v representa al primer pokemon a comparar
+     * @param w representa al segundo pokemon a comparar
+     * @param comparador los compara y evalua
+     * @return devuelve true si el pokmenon "v" debe ir antes que el pokemon "w".
+     */
     private static boolean less(Pokemon v, Pokemon w, Comparator<Pokemon>comparador) {
         return comparador.compare(v,w)<0;
     }
 
-    /* is v < w ? codigo basura??????
+    /* is v < w ?
     private static boolean less(Comparator comparator, Object v, Object w) {
         return comparator.compare(v, w) < 0;
     }
@@ -122,11 +136,14 @@ public class Selection {
      * */
     // exchange a[i] and a[j]
 
+
     /**
-     * se reemplazo  Object[] por ArrayList<Pokemon> por que el original se maneja en arreglos y las
-     * listas pokemons que usaremos usa arreglos dinamicos por lo que era incompatible
-     * y se adapto el codigo para que sea compatible con arraylist asi eliminando los chorchetes tradiciones en el codigo
-     *
+     *  se reemplazo  Object[] por ArrayList<Pokemon> por que el original se maneja en arreglos y las
+     *  listas pokemons que usaremos usa arreglos dinamicos por lo que era incompatible
+     *    y se adapto el codigo para que sea compatible con arraylist asi eliminando los chorchetes tradiciones en el codigo
+     * @param lista guarda la lista en donde se realizaran los intercambios
+     * @param i indice del primer elemnto
+     * @param j indice del segundo elemento
      */
     private static void exch(ArrayList<Pokemon> lista, int i, int j) {
         Pokemon swap = lista.get(i);
@@ -146,6 +163,9 @@ public class Selection {
      * para que funcione correctamente lyendo la lista y comparandola asi adaptandose a como funcionaba el original
      * esta funcion verificca si la lista esta correctamente ordenada
      *
+     * @param lista lo que se evaluara
+     * @param comparador la caracteristica con la que se hara el ordenamiento
+     * @return devuelve true si va en orden ascendente
      */
     private static boolean isSorted(ArrayList<Pokemon> lista, Comparator<Pokemon>comparador) {
 
@@ -168,7 +188,7 @@ y se adapta con la sintaxis correcta para arraylist asi eliminado los corchetes 
         return true;
     }
 /*
-????????????????????????????????????????????????????????????
+
 
     // is the array a[] sorted?
     private static boolean isSorted(Object[] a, Comparator comparator) {
@@ -208,7 +228,7 @@ y se adapta con la sintaxis correcta para arraylist asi eliminado los corchetes 
      */
 }
 
-/******************************************************************************
+/*
  *  Copyright 2002-2025, Robert Sedgewick and Kevin Wayne.
  *
  *  This file is part of algs4.jar, which accompanies the textbook

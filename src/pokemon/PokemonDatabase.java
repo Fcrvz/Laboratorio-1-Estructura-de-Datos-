@@ -11,10 +11,17 @@ public class PokemonDatabase {
 
     private ArrayList<Pokemon> pokemons;
 
+    /**
+     * Contructor vacio que inicializa la base de datos vacia.
+     */
     public PokemonDatabase() {
         this.pokemons = new ArrayList<>();
     }
 
+    /**
+     * Contructor que inicializa la base de datos a partir de una lista ya existente.
+     * @param pokemons Arraylist de Pokemons
+     */
     public PokemonDatabase(ArrayList<Pokemon> pokemons) {
 
         this.pokemons = pokemons;
@@ -22,12 +29,15 @@ public class PokemonDatabase {
 
     /**
      * Ordena la lista interna de Pokémones según el algoritmo y atributo indicados.
+     * @param algoritmo El nombre que indica que algorirmo se usara("Selection" o "Merge")
+     * @param atributo la Caracteristica del pokemon por la cual se deasea ordenar
      */
     public void ordenarPorAlgoritmo(String algoritmo, String atributo) {
+        //si el algoritmo o la lista esta vacia se corta el proceso.
         if (algoritmo == null || this.pokemons.isEmpty()) {
             return;
         }
-
+        //se obtiene el comparador segun el atributo que se selecciono
         Comparator<Pokemon> comparador = obtenerComparador(atributo);
 
         if (algoritmo.equals("selectionSort") || algoritmo.equals("selection")) {
@@ -39,8 +49,8 @@ public class PokemonDatabase {
 
     /**
      * Búsqueda secuencial. No requiere que la lista esté ordenada.
-     * @param clave el valor buscado
-     * @param atributo el atributo que se elegira sobre el que se comparara
+     * @param clave el valor buscado (ej:"Slowbro" o "80")
+     * @param atributo el atributo que se elegira sobre el que se comparara la clave
      * @return un ArrayList con todo los pokemons que coincidan con la clave buscada
      */
     public ArrayList<Pokemon> sequentialSearch(String clave, String atributo) {
@@ -51,6 +61,7 @@ public class PokemonDatabase {
         }
 
         for (Pokemon p : this.pokemons) {
+            // se compara el texto exacto si este coincide se guarada en la lista de resultados
             if (clave.equals(obtenerValorAtributo(p, atributo))) {
                 resultados.add(p);
             }
@@ -63,9 +74,9 @@ public class PokemonDatabase {
      * Búsqueda binaria O(log n + k). Asume que la lista ya está ordenada. localiza una coincidencia inicial
      * dividiendo la lista a la mitad y luego expande la busqueda linealmente hacia sus elementos que tiene a su lado
      * y retorna las coincidencias
-     * @param clave
-     * @param atributo
-     * @return
+     * @param clave El valor que se desea buscar.
+     * @param atributo El atributo del Pokémon sobre el cual comparar.
+     * @return un Arraylist con todas las coincidencias.
      */
     public ArrayList<Pokemon> binarySearch(String clave, String atributo) {
         ArrayList<Pokemon> resultados = new ArrayList<>();
@@ -89,13 +100,15 @@ public class PokemonDatabase {
             }else{
                 comparacion=Integer.compare(Integer.parseInt(clave), Integer.parseInt(valorMedio));
             }
-
+            // si el resultado es 0 se encuentra al pokemon y rompemos el ciclo
             if (comparacion == 0) {
                 indiceEncontrado = medio;
                 break;
             } else if (comparacion < 0) {
+                // Si es negativo, descartamos la mitad derecha
                 fin = medio - 1;
             } else {
+                // Si es positivo, descartamos la mitad izquierda
                 inicio = medio + 1;
             }
         }
@@ -103,6 +116,7 @@ public class PokemonDatabase {
         if (indiceEncontrado != -1) {
             int limiteIzq = indiceEncontrado;
             int limiteDer = indiceEncontrado;
+
 
             while (limiteIzq > 0 && clave.equals(obtenerValorAtributo(this.pokemons.get(limiteIzq - 1), atributo))) {
                 limiteIzq--;
@@ -119,6 +133,13 @@ public class PokemonDatabase {
         return resultados;
     }
 
+    /**
+     * varios comparadores que segun el atributo que le llega te devuelve la instruccion necesaria que java
+     * nececita para ordenar a los pokemon por ese dato en especifico
+     * alfabetico para textos
+     * @param atributo el nombre del atributo por el que se ordenara
+     * @return el valor del dato convertido a texto si el texto es nulo o invalido retorar el totlaStats por defecto.
+     */
     private Comparator<Pokemon> obtenerComparador(String atributo) {
         if (atributo == null) {
             Comparator<Pokemon> comparadorTotalStats= (p1,p2)-> Integer.compare(p1.getTotalStats(), p2.getTotalStats());
@@ -157,9 +178,15 @@ public class PokemonDatabase {
 
     }
 
+    /**
+     *
+     * @param p es el objeto Pokemon del cual se va a extraer su dato
+     * @param atributo el nombnre del atributo que se quiere leer
+     * @return el valor del atributo en formato String.
+     */
     private String obtenerValorAtributo(Pokemon p, String atributo) {
         // Integer.toString() toma un número entero primitivo (int) y lo transforma formalmente en un objeto de texto (String).
-        // Es la operación matemáticamente inversa a Integer.parseInt() que usamos en la búsqueda binaria.
+
         if (atributo == null) {
             return Integer.toString(p.getTotalStats());
         }
