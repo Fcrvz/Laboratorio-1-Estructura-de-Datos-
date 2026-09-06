@@ -1,9 +1,6 @@
-import edu.princeton.cs.algs4.Merge;
-import edu.princeton.cs.algs4.Selection;
-import pokemon.Pokemon;
-
+import edu.princeton.cs.algs4.*;
+import pokemon.*;
 import java.util.*;
-
 
 //creamos esta clase auxiliar para realizar pruebas unitarias y verificacion de correctitud
 public class PruebaMergeSelection {
