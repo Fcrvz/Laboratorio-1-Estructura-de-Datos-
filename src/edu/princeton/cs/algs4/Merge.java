@@ -69,7 +69,7 @@ public class Merge{
         }
 
         // merge back to a[]
-        /** para adaptar este ciclo para que funcione con arraylist utilizamos el mismo procedimiento
+        /* para adaptar este ciclo para que funcione con arraylist utilizamos el mismo procedimiento
         *  cambiar todo lo que este relacionado con arreglos tradicionales a la manera de arraylists
         *  que en este caso seria utilizar gets para acceder a las posiciones de los arreglos dinamicos
         *  y set para modificar los datos del mismo
@@ -95,7 +95,7 @@ public class Merge{
         assert isSorted(lista, lo, hi, comparador);
     }
 
-    /** mergesort a[lo..hi] using auxiliary array aux[lo..hi]
+    /* mergesort a[lo..hi] using auxiliary array aux[lo..hi]
     * Comparable[] podemos desglozarlo como "Comparable" la cual es equivalente a nuestra variable pokemon
      *pero este pierde la capacidad de comparar por si solo por lo cual debemos implementar un nuevo comparador
      *el que decidimos usar fue Comparator dentro de este pusimos nuestra variable Pokemon

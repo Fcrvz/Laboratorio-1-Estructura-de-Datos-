@@ -44,7 +44,7 @@ public class Pokemon {
     }
 
     /**
-     * se asegura de recalcular los totalStats para que esta siempre sea la suma correcta de sus estadisticas.
+     * se asegura de recalcular los totalStats para que esta siempre sea la suma  de sus estadisticas.
      */
     private void recalcularTotalStats() {
         this.totalStats = this.hp + this.attack + this.defense + this.speed;

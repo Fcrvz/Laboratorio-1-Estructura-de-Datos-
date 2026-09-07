@@ -12,7 +12,7 @@ public class PokemonDatabase {
     private ArrayList<Pokemon> pokemons;
 
     /**
-     * Contructor vacio que inicializa la base de datos vacia.
+     * Constructor vacio que inicializa la base de datos vacia.
      */
     public PokemonDatabase() {
         this.pokemons = new ArrayList<>();
@@ -20,7 +20,7 @@ public class PokemonDatabase {
 
     /**
      * Contructor que inicializa la base de datos a partir de una lista ya existente.
-     * @param pokemons Arraylist de Pokemons
+     * @param pokemons Arraylist de Pokemons contiene los objetos tipo pokemon a gestionar
      */
     public PokemonDatabase(ArrayList<Pokemon> pokemons) {
 
@@ -29,8 +29,9 @@ public class PokemonDatabase {
 
     /**
      * Ordena la lista interna de Pokémones según el algoritmo y atributo indicados.
-     * @param algoritmo El nombre que indica que algorirmo se usara("Selection" o "Merge")
-     * @param atributo la Caracteristica del pokemon por la cual se deasea ordenar
+     * si la lista esta vacia el proceso se detendra.
+     * @param algoritmo El nombre que indica que algoritmo se usara("Selection" o "Merge")
+     * @param atributo la Caracteristica del pokemon por la cual se desea ordenar(ej: "hp","name".. )
      */
     public void ordenarPorAlgoritmo(String algoritmo, String atributo) {
         //si el algoritmo o la lista esta vacia se corta el proceso.
@@ -134,12 +135,11 @@ public class PokemonDatabase {
     }
 
     /**
-     * varios comparadores que segun el atributo que le llega te devuelve la instruccion necesaria que java
-     * nececita para ordenar a los pokemon por ese dato en especifico
-     * alfabetico para textos
-     * @param atributo el nombre del atributo por el que se ordenara
-     * @return el valor del dato convertido a texto si el texto es nulo o invalido retorar el totlaStats por defecto.
+     *  Construye la regla de comparación matemática o alfabética necesaria para ordenar a los Pokémon
+     * @param atributo el nombre de la característica por la cual se desea ordenar (ej: "hp", "name").
+     * @return un comparador de Pokémon. Si el atributo es nulo o no es reconocido, retorna un comparador por totalStats por defecto.
      */
+
     private Comparator<Pokemon> obtenerComparador(String atributo) {
         if (atributo == null) {
             Comparator<Pokemon> comparadorTotalStats= (p1,p2)-> Integer.compare(p1.getTotalStats(), p2.getTotalStats());

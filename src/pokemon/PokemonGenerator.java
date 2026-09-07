@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import edu.princeton.cs.algs4.*;
 
 /**
- * genera listas de pokemon para los experimentos.
+ * genera listas de pokemon que se usara para medir los tiempos del experimento.
+ *Controla matemáticamente la repetición de nombres (máximo t veces por nombre)
  *
  */
 public class PokemonGenerator {
     /**
-     *
+     *crea la base de datos armando a los pokemon uno por uno
      * @param n el tamano de la base de datos a generar(n = 2^t)
-     * @param seed la semilla de aleatoriedad
-     * @return un Arraylist con los n pokemon instanciados
+     * @param seed la semilla de aleatoriedad que garantiza la reproducibilidad de los experimentos.
+     * @return un Arraylist con los n pokemon instanciados, listos para ordenar
      */
     public static ArrayList<Pokemon> generateDatabase(int n, long seed){
         // se fija la semilla
