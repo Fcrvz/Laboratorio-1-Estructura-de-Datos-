@@ -27,26 +27,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 import pokemon.*;
+
 /**
- *  The {@code Merge} class provides static methods for sorting an
- *  array using a top-down, recursive version of <em>mergesort</em>.
- *  <p>
- *  This implementation takes &Theta;(<em>n</em> log <em>n</em>) time
- *  to sort any array of length <em>n</em> (assuming comparisons
- *  take constant time). It makes between
- *  ~ &frac12; <em>n</em> log<sub>2</sub> <em>n</em> and
- *  ~ 1 <em>n</em> log<sub>2</sub> <em>n</em> compares.
- *  <p>
- *  This sorting algorithm is stable.
- *  It uses &Theta;(<em>n</em>) extra memory (not including the input array).
- *  <p>
- *  For additional documentation, see
- *  <a href="https://algs4.cs.princeton.edu/22mergesort">Section 2.2</a> of
- *  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.
- *  For an optimized version, see {@link MergeX}.
- *
- *  @author Robert Sedgewick
- *  @author Kevin Wayne
+ * merge fue adaptada para que ahora esta opere sobre Arraylist
  */
 public class Merge{
 
@@ -54,19 +37,25 @@ public class Merge{
     private Merge() { }
 
     // stably merge a[lo .. mid] with a[mid+1 ..hi] using aux[lo .. hi]
-    /* aqui cambiamos los arreglos tradicionales por arraylist para adaptarlo y que funcione con
+    /*aqui cambiamos los arreglos tradicionales por arraylist para adaptarlo y que funcione con
     * las clases pokemon, como pide el enunciado del laboratorio, se cambiaron las variables justas y necesarias
     * para que esto funcionara, ademas de cambiar los arreglos tradicionales implementamos Comparator<Pokemon> de la
     * libreria de java.util al igual que arraylist
     * de los parametros originales del arreglo tradicional "a" paso a ser "lista", aux se mantuvo al igual
     * que las demas variables originales
     *
-    *
-    *
-    *
-    *
-    *
+
     * */
+
+    /**
+     *
+     * @param lista la lista orignal de Pokemon
+     * @param aux respaldo/ copia de la lista
+     * @param lo inidice  de inicio
+     * @param mid indice de la mitad
+     * @param hi inidice del termino
+     * @param comparador determina la posicion
+     */
     private static void merge(ArrayList<Pokemon> lista, ArrayList<Pokemon> aux, int lo, int mid, int hi, Comparator<Pokemon> comparador) {
         // precondition: a[lo .. mid] and a[mid+1 .. hi] are sorted subarrays
         assert isSorted(lista, lo, mid, comparador);
@@ -106,11 +95,20 @@ public class Merge{
         assert isSorted(lista, lo, hi, comparador);
     }
 
-    // mergesort a[lo..hi] using auxiliary array aux[lo..hi]
-    // Comparable[] podemos desglozarlo como "Comparable" la cual es equivalente a nuestra variable pokemon
-    // pero este pierde la capacidad de comparar por si solo por lo cual debemos implementar un nuevo comparador
-    // el que decidimos usar fue Comparator dentro de este pusimos nuestra variable Pokemon
-    // y el arreglo "[]" seria nuestro ArrayList
+    /* mergesort a[lo..hi] using auxiliary array aux[lo..hi]
+    * Comparable[] podemos desglozarlo como "Comparable" la cual es equivalente a nuestra variable pokemon
+     *pero este pierde la capacidad de comparar por si solo por lo cual debemos implementar un nuevo comparador
+     *el que decidimos usar fue Comparator dentro de este pusimos nuestra variable Pokemon
+     *y el arreglo "[]" seria nuestro ArrayList
+     **/
+    /**
+     *
+     * @param lista la lista original de Pokemon
+     * @param aux copia de la lista
+     * @param lo indicie inicial
+     * @param hi indice final
+     * @param comparador lo que determinara el orden
+     */
     private static void sort(ArrayList<Pokemon>lista, ArrayList<Pokemon> aux, int lo, int hi, Comparator<Pokemon> comparador) {
         if (hi <= lo) return;
         int mid = lo + (hi - lo) / 2;
@@ -124,10 +122,6 @@ public class Merge{
      * @param a the array to be sorted
      */
 
-    /*
-    *
-    *
-    * */
 
     /*
     *  en este caso la solucion que vimos para adaptar el sort
@@ -146,7 +140,11 @@ public class Merge{
     *
     * */
 
-
+    /**
+     *
+     * @param lista el Arraylist que contiene los objetos que se ordenaran
+     * @param comparador la caracteristica por la cual se comparara(ej: hp,nombre,speed)
+     */
     public static void sort(ArrayList<Pokemon>lista, Comparator<Pokemon> comparador){
         if(lista==null||lista.size()<=1){
             return;
@@ -172,7 +170,7 @@ public class Merge{
    /***************************************************************************
     *  Check if array is sorted - useful for debugging.
     ***************************************************************************/
-   /*
+   /**
    * cambiamos del metodo original todos los Comparable[] por ArralyList<Pokemon>
    * para adaptarlo y que merge y las demas clases que contienen arraylist funcionen correctamente
    * (inchequeable) el antiguo lista.length fue cambiado por un lista.size ya que los arreglos dinamicos no funcionan con
@@ -253,7 +251,7 @@ public class Merge{
 //        }
 //    }
 
-    /**
+    /*
      * Reads in a sequence of strings from standard input; mergesorts them;
      * and prints them to standard output in ascending order.
      *

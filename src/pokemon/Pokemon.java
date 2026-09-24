@@ -2,6 +2,9 @@ package pokemon;
 
 import java.util.Comparator;
 
+/**
+ * representa al pokemon que almacenara la informacion de identificacion y sus estadisticas de combate
+ */
 public class Pokemon {
 
     private int id;
@@ -21,6 +24,13 @@ public class Pokemon {
 
     /**
      * Constructor que inicializa los atributos del pokemon.Pokemon y calcula su totalStats.
+     * @param id identificador del pokemon
+     * @param name nombre del pokemon
+     * @param type1 tipo primario
+     * @param hp puntos de vida del pokemon
+     * @param attack puntos de ataque del pokemon
+     * @param defense puntos de defensa del pokemon
+     * @param speed velocidad del pokemon
      */
     public Pokemon(int id, String name, String type1, int hp, int attack, int defense, int speed){
         this.id = id;
@@ -33,6 +43,9 @@ public class Pokemon {
         recalcularTotalStats(); // Llamamos a un método interno para evitar repetir código
     }
 
+    /**
+     * se asegura de recalcular los totalStats para que esta siempre sea la suma  de sus estadisticas.
+     */
     private void recalcularTotalStats() {
         this.totalStats = this.hp + this.attack + this.defense + this.speed;
     }
